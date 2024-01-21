@@ -50,84 +50,86 @@
               <% } %>
           </h2> -->
         </div>
+        <% console.log('Tipo de Usuario:', user ? user.tipo : 'No autenticado'); %>
         <div class="text-right">
           <a type="button" class="px-3 btn btn-primary mb-2" href="/mis-colecciones">Mis colecciones</a>
-          <a type="button" class="px-3 btn btn-secondary mb-2" href="/edit-profile">Editar mi perfil</a>
-          <a type="button" class="px-3 btn btn-danger mb-2" href="logout"> 🏃‍♂️ Logout</a>
-          <% if (user && user.tipo==='admin' ) { %>
+          <% if (user) { %>
+              <a type="button" class="px-3 btn btn-secondary mb-2" href="/edit-profile">Editar mi perfil</a>
+              <a type="button" class="px-3 btn btn-danger mb-2" href="/logout"> 🏃‍♂️ Logout</a>
+          <% } else { %>
+              <a type="button" class="px-3 btn btn-secondary mb-2" href="/login">Login</a>
+          <% } %>
+      
+          <% if (user && user.tipo === 'admin') { %>
             <a id="adminButton" type="button" class="px-3 btn btn-warning" href="/admin">ADMIN</a>
-            <% } %>
-
-        </div>
+          <% } %>
+      </div>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHeader"
           aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
       </div>
     </div>
+
+<!-- Barra de búsqueda -->
+<div class="container mt-3">
+  <form action="/buscar" method="get" class="form-inline">
+    <div class="input-group">
+      <input type="text" class="form-control" placeholder="Buscar Tanque..." name="q" />
+      <div class="input-group-append">
+        <button class="btn btn-primary" type="submit">Buscar</button>
+        <button class="btn btn-secondary ml-2" type="submit">Mostrar Todos</button>
+      </div>
+    </div>
+  </form>
+</div>
   </header>
 
   <main>
-
     <section class="py-1 text-center container">
       <div class="row py-lg-2">
         <div class="col-lg-6 col-md-8 mx-auto">
-          <h1 class="fw-bold">Ultimos Ingresos</h1>
-          <!-- <p class="lead text-muted">Something short and leading about the collection below—its contents, the creator,
-            etc. Make it short and sweet, but not too short so folks don’t simply skip over it entirely.</p>
-          <p>
-            <a href="#" class="btn btn-primary my-2">Main call to action</a>
-            <a href="#" class="btn btn-secondary my-2">Secondary action</a> -->
-          </p>
+          <h1 class="fw-bold">Listado de Tanques</h1>
         </div>
       </div>
     </section>
 
     <div class="album py-1 bg-light">
       <div class="container">
-
-
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
-          <% featuredComics.forEach(comic => { %>
-            <div class="col">
-              <div class="card shadow-sm">
-                <img class="comic-cover" src="/uploads/<%= comic.portada %>" class="bd-placeholder-img card-img-top" width="100%" height="225" alt="<%= comic.nombre %>">
-                <div class="card-body">
-                  <h5 class="card-title"><%= comic.nombre %></h5>
-                  <p class="card-text">
-                    <strong>Número:</strong> <%= comic.numero %><br>
-                    <strong>Colección:</strong> <%= comic.coleccion %><br>
-                    <strong>Costo:</strong> $<%= comic.costo %><br>
-                    <strong style="font-size: 22px; color: red;">10% OFF: $</strong>
-                    <span style="font-size: 22px; color: red; font-weight: bold;">
-                      <%= Math.floor(comic.costo * 0.9) %>
-                    </span>
-                  </p>
-                  <hr> <!-- Línea divisoria para separar información -->
-                  <p class="card-text">
-                    <%= comic.observaciones %>
-                  </p>
-                  <div class="d-flex justify-content-between align-items-center mt-3">
-                    <div>
-                      <!-- Aquí irían las observaciones -->
-                    </div>
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-sm btn-outline-secondary" onclick="agregarAColeccion(<%= comic.id %>, '<%= comic.coleccion %>')">Agregar a colección</button>
-                      <a href="/ver-comic/<%= comic.id %>" class="btn btn-sm btn-outline-secondary">Ver</a>
-                    </div>
+          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
+              <!-- Modifica el bucle para iterar sobre la variable "comics" -->
+              <% comics.forEach(comic => { %>
+                  <div class="col">
+                      <div class="card shadow-sm">
+                          <img class="comic-cover" src="/uploads/<%= comic.portada %>" class="bd-placeholder-img card-img-top" width="100%" height="225" alt="<%= comic.nombre %>">
+                          <div class="card-body">
+                              <h5 class="card-title"><%= comic.nombre %></h5>
+                              <p class="card-text">
+                                  <strong>Codigo:</strong> <%= comic.numero %><br>
+                                  <strong>Costo:</strong>
+                                  <span style="font-size: 22px; font-weight: bold; color: <%= comic.costo === 0 ? 'green' : 'red' %>;">
+                                      <%= comic.costo === 0 ? 'CONSULTAR' : ('$' + comic.costo) %>
+                                  </span><br>
+                              </p>
+                              <hr>
+                              <p class="card-text">
+                                  <%= comic.observaciones %>
+                              </p>
+                              <div class="d-flex justify-content-start align-items-center mt-3">
+                                <div class="btn-group">
+                                  <button type="button" class="btn btn-primary btn-md btn-agregar-coleccion"
+                                    data-codigo="<%= comic.numero %>"
+                                    data-descripcion="<%= comic.nombre %>">Pedir</button>
+                                  <a href="javascript:void(0);" class="btn btn-secondary btn-md btn-ver" data-image-path="/uploads/<%= comic.portada %>">Ver</a>
+                                </div>
+                              </div>
+                          </div>
+                      </div>
                   </div>
-                </div>
-              </div>
-            </div>
-          <% }); %>
-        </div>
-
+              <% }); %>
+          </div>
       </div>
-    </div>
-    </div>
-
-
-
+  </div>
   </main>
 
   <footer class="text-muted py-5">
@@ -141,20 +143,53 @@
     </div>
   </footer>
 
+  <div id="image-viewer">
+    <img id="fullscreen-image" src="#" alt="Fullscreen Image">
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var adminButton = document.getElementById('adminButton');
+      if (adminButton) {
+        adminButton.style.display = '<%= user && user.tipo !== "admin" ? "none" : "block" %>';
+      }
+
+      var imageViewer = document.getElementById('image-viewer');
+      var fullscreenImage = document.getElementById('fullscreen-image');
+
+      function openImageViewer(imageSrc) {
+        fullscreenImage.src = imageSrc;
+        imageViewer.style.display = 'flex';
+      }
+
+      function closeImageViewer() {
+        imageViewer.style.display = 'none';
+      }
+
+      var verButtons = document.querySelectorAll('.btn-ver');
+      verButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+          var imagePath = this.getAttribute('data-image-path');
+          openImageViewer(imagePath);
+        });
+      });
+
+      imageViewer.addEventListener('click', closeImageViewer);
+    });
+  </script>
 
   <script src="/js/bootstrap.bundle.min.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       var adminButton = document.getElementById('adminButton');
       if (adminButton) {
-        // Ocultar el botón si el usuario no es un administrador
         adminButton.style.display = '<%= user && user.tipo !== "admin" ? "none" : "block" %>';
       }
     });
   </script>
+
   <script>
     function agregarAColeccion(comicId, coleccion) {
-      // Envía una solicitud al backend (usando Fetch, AJAX, o cualquier método que prefieras)
       fetch('/suscribir-coleccion', {
         method: 'POST',
         headers: {
@@ -164,7 +199,7 @@
       })
       .then(response => response.json())
       .then(data => {
-        console.log(data);  // Agrega esta línea para ver la respuesta del servidor en la consola del navegador
+        console.log(data);
         if (data.success) {
           alert('Suscripción exitosa');
         } else {
@@ -177,8 +212,33 @@
       });
     }
   </script>
+  <!-- FUNCION PARA CONSULTAR POR WHATSAPP -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+  $(document).ready(function() {
+    $('.btn-ver').click(function() {
+      var imagePath = $(this).data('image-path');
+      openImageViewer(imagePath);
+    });
 
+    function openImageViewer(imageSrc) {
+      $('#fullscreen-image').attr('src', imageSrc);
+      $('#image-viewer').css('display', 'flex');
+    }
 
+    $('#image-viewer').click(function() {
+      $('#image-viewer').css('display', 'none');
+    });
+
+    $('.btn-agregar-coleccion').click(function() {
+  var codigo = $(this).data('codigo');
+  var descripcion = $(this).data('descripcion');
+  var mensaje = "Hola! Me gustaría consultar sobre el tanque Cod " + codigo + ", Descripción " + descripcion + "...";
+  var enlaceWhatsApp = "whatsapp://send?phone=5493364338670&text=" + encodeURIComponent(mensaje);
+  window.location.href = enlaceWhatsApp;
+});
+  });
+</script>
 </body>
 
 </html>

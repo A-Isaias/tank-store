@@ -28,6 +28,27 @@ header h2 {
     }
   }
 
+  /*Estilos para imagen a pantalla completa*/
+  
+  #image-viewer {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    justify-content: center;
+    align-items: center;
+  }
+  
+  #image-viewer img {
+    max-width: 90%;
+    max-height: 90%;
+    border: 2px solid #fff;
+    border-radius: 5px;
+    cursor: pointer;
+  }
 
 /* Media query para pantallas más pequeñas, como 1366x768 */
 @media screen and (max-width: 1366px) {

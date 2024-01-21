@@ -11,6 +11,7 @@ const adminController = require('../controllers/adminController');
 const suscriptionController = require('../controllers/suscriptionController');
 
 
+
 // Importa la configuración de Multer desde app.js
 const {app, upload } = require('../app');
 
@@ -18,24 +19,25 @@ const {app, upload } = require('../app');
 router.use(methodOverride('_method'));
 
 //router para las vistas 
-// Ruta para la página principal, 
+// Ruta para la página principal
 router.get('/', async (req, res) => {
-    try {
-        const featuredComics = await indexController.getFeaturedComics();
-        res.render('index', { user: req.user, featuredComics });
-    } catch (error) {
-        console.error(error);
-        res.status(500).send('Error interno del servidor');
-    }
+  try {
+      const comics = await indexController.getFeaturedComics();
+      res.render('index', { user: req.user, comics }); // Cambiado de 'featuredComics' a 'comics'
+  } catch (error) {
+      console.error(error);
+      res.status(500).send('Error interno del servidor');
+  }
 });
 
-// router.get ('/login', (req, res)=>{
-//     res.render('login', {alert:false})
-// })
-// router.get ('/register', (req, res)=>{
-//     res.render('register')
-// })
-
+router.get ('/login', (req, res)=>{
+    res.render('login', {alert:false})
+})
+router.get ('/register', (req, res)=>{
+    res.render('register')
+})
+// Ruta para buscar en la página de inicio
+router.get('/buscar', indexController.searchIndexComics);
 
 // Ruta para la vista de administrador
 router.get('/admin', authController.isAuthenticated, async (req, res) => {

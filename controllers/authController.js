@@ -47,84 +47,98 @@ exports.register = async (req, res) => {
   }
 
 //metodo login
-exports.login = async (req,res)=> {
+exports.login = async (req, res) => {
     try {
-        const email = req.body.email
-        const pass = req.body.pass
-        console.log(email , pass);
-        if (!email || !pass ) {
-            res.render('login',{
-                alert: true,
-                alertTitle: "Advertencia",
-                alertMessage: "Debe ingresar email y password",
+        const email = req.body.email;
+        const pass = req.body.pass;
+
+        console.log(email, pass);
+
+        if (!email || !pass) {
+            return res.render('login', {
+                alert: {
+                    type: 'error',
+                    message: "Debe ingresar email y password",
+                    alertIcon: 'info',
+                    showConfirmButton: true,
+                    timer: 3000,
+                    ruta: 'login'
+                }
+            });
+        }
+
+        const results = await promisify(connection.query).bind(connection)('SELECT * FROM users WHERE mail = ?', [email]);
+
+        if (results.length === 0 || !(await bcryptjs.compare(pass, results[0].password))) {
+            return res.render('login', {
+                alert: {
+                    type: 'error',
+                    message: "Usuario o Password erroneos",
+                    alertIcon: 'info',
+                    showConfirmButton: true,
+                    timer: 3000,
+                    ruta: 'login'
+                }
+            });
+        }
+
+        const id = results[0].id;
+        const token = jwt.sign({ id: id }, process.env.JWT_SECRETO, {
+            expiresIn: process.env.JWT_TIEMPO_EXPIRA
+        });
+
+        console.log("TOKEN: " + token + " para el usuario: " + email);
+
+        const cookiesOptions = {
+            expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000),
+            httpOnly: true
+        };
+
+        res.cookie('jwt', token, cookiesOptions);
+
+        // Redirigir después de establecer la cookie
+        res.redirect('/');
+    } catch (error) {
+        console.log(error);
+        res.render('login', {
+            alert: {
+                type: 'error',
+                message: "Hubo un error al intentar iniciar sesión.",
                 alertIcon: 'info',
                 showConfirmButton: true,
                 timer: 3000,
                 ruta: 'login'
-            })
-        }else{
-            connection.query('SELECT * FROM users WHERE mail = ?', [email], async (error, results) => {
-                if(results.length == 0 || !(await bcryptjs.compare(pass, results[0].password))){
-                    res.render('login',{
-                        alert: true,
-                        alertTitle: "Advertencia",
-                        alertMessage: "Usuario o Password erroneos",
-                        alertIcon: 'info',
-                        showConfirmButton: true,
-                        timer: 3000,
-                        ruta: 'login'
-                    })
-                }else{
-                    const id = results[0].id;
-                    const token = jwt.sign({id:id}, process.env.JWT_SECRETO, {
-                        expiresIn: process.env.JWT_TIEMPO_EXPIRA
-                    })
-                    console.log("TOKEN: "+token+" para el usuario: "+email);
-
-                    const cookiesOptions = {
-                        expires: new Date(Date.now()+process.env.JWT_COOKIE_EXPIRES *24 *60 *60 * 1000),
-                        httpOnly:true
-                    }
-                    res.cookie('jwt', token,cookiesOptions)
-                    res.render('login',{
-                        alert: true,
-                        alertTitle: "Conexion Exitosa!",
-                        alertMessage: "Usuario Logueado Correctamente",
-                        alertIcon: 'success',
-                        showConfirmButton: false,
-                        timer: 2000,
-                        ruta: ''
-                    })
-                }    
-            })
-        }
-    }catch (error){
-        console.log(error);
+            }
+        });
     }
-    
-}
+};
 
 //metodo para autenticar
 exports.isAuthenticated = async (req, res, next) => {
     if (req.cookies.jwt) {
         try {
-            const decodificada = await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRETO)
-            connection.query('SELECT * FROM users WHERE id= ?', [decodificada.id], (error, results) => {
-                if (!results) {
-                    return next()
-                }
-                req.user = results[0];
-                return next()
-            })
+            const decodificada = await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRETO);
+
+            // Cambia la consulta para usar el id decodificado
+            const [results] = await promisify(connection.query).bind(connection)('SELECT * FROM users WHERE id = ?', [decodificada.id]);
+
+            if (!results || results.length === 0) {
+                // Si no hay resultados, el usuario no está autenticado
+                return res.redirect('/');
+            }
+
+            req.user = results;
+            return next();
         } catch (error) {
-            console.log(error)
-            return next()
+            console.log(error);
+            return res.redirect('/');
         }
     } else {
-        // Si no hay token JWT, el usuario no está autenticado, pero permitimos el acceso
-        return next();
+        // Si no hay token JWT, el usuario no está autenticado
+        return res.redirect('/');
     }
-}
+};
+
 //Logout
 exports.logout = (req, res)=>{
 res.clearCookie('jwt')
