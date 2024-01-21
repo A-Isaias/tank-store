@@ -1,0 +1,93 @@
+<!-- editComic.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Cómic</title>
+    <link rel="stylesheet" href="/css/adminComics.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
+   
+<body>
+
+    <div class="container mt-1">
+
+        <!-- Menú -->
+        <nav class="navbar navbar-expand-lg bg-dark shadow-sm"> 
+            <a class="navbar-brand btn btn-outline-secondary text-white" href="/">Menú Principal</a>
+            <span class="navbar-title text-white">Edit Comics</span>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-primary text-white mr-2" href="/admin-comics">🔙 Volver</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </nav>
+    <!-- Formulario de edición -->
+    <form action="/update-comic/<%= comic.id %>" method="post" enctype="multipart/form-data">
+        <!-- Campos de edición -->
+        <div class="form-group">
+            <label for="nombre">Nombre:</label>
+            <input type="text" class="form-control" id="nombre" name="nombre" value="<%= comic.nombre %>" required>
+        </div>
+
+        <div class="form-group">
+            <label for="numero">Número:</label>
+            <input type="text" class="form-control" id="numero" name="numero" value="<%= comic.numero %>" required>
+        </div>
+        <!-- Campo de edición de la portada -->
+        <div class="form-group">
+            <label for="portada-actual">Portada Actual:</label><br>
+            <img src="/uploads/<%= comic.portada %>" alt="Portada Actual" class="img-thumbnail" style="max-width: 150px;">
+        </div>
+        <div class="form-group">
+            <label for="portada">Seleccionar Nueva Portada:</label>
+            <input type="file" class="form-control-file" id="portada" name="portada">
+        </div>
+        <div class="form-group">
+            <label for="editorial">Editorial:</label>
+            <input type="text" class="form-control" id="editorial" name="editorial" value="<%= comic.editorial %>" required>
+        </div>
+
+        <div class="form-group">
+            <label for="coleccion">Colección:</label>
+            <!-- <input type="text" class="form-control" id="coleccion" name="coleccion" value="<%= comic.coleccion %>" required> -->
+            <input type="text" id="coleccion" name="coleccion" value="<%= comic.coleccion %>" readonly>
+        </div>
+
+        <div class="form-group">
+            <label for="fecha_ingreso">Fecha de Ingreso:</label>
+            <input type="text" class="form-control" id="fecha_ingreso" name="fecha_ingreso" value="<%= comic.fecha_ingreso %>" required>
+        </div>
+        <div class="form-group">
+            <label for="novedad">¿Es novedad?</label>
+            <select class="form-control" id="novedad" name="novedad" required>
+                <option value="1" <%= comic.novedad ? 'selected' : '' %>>Sí</option>
+                <option value="0" <%= comic.novedad ? '' : 'selected' %>>No</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="costo">Costo:</label>
+            <input type="text" class="form-control" id="costo" name="costo" value="<%= comic.costo %>" required>
+        </div>
+        <div class="form-group">
+            <label for="observaciones">Observaciones:</label>
+            <textarea class="form-control" id="observaciones" name="observaciones" rows="3"><%= comic.observaciones %></textarea>
+        </div>
+
+        <!-- Otros campos de edición -->
+        <!-- ... -->
+
+        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+        <a href="/admin-comics" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+
+</body>
+</html>
