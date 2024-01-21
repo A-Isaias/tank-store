@@ -52,7 +52,10 @@
         </div>
         <% console.log('Tipo de Usuario:', user ? user.tipo : 'No autenticado'); %>
         <div class="text-right">
-          <a type="button" class="px-3 btn btn-primary mb-2" href="/mis-colecciones">Mis colecciones</a>
+          <a type="button" class="px-3 btn btn-success mb-2" href="#" id="whatsappButton">
+            <img src="/img/logowhatsapp.png" alt="WhatsApp Logo" width="20" height="20">
+            Consultenos por WhatsApp
+          </a>
           <% if (user) { %>
               <a type="button" class="px-3 btn btn-secondary mb-2" href="/edit-profile">Editar mi perfil</a>
               <a type="button" class="px-3 btn btn-danger mb-2" href="/logout"> 🏃‍♂️ Logout</a>
@@ -136,12 +139,12 @@
   <footer class="text-muted py-5">
     <div class="container">
       <p class="float-end mb-1">
-        <a href="#">Back to top</a>
+        <a href="#">Volver al inicio</a>
       </p>
-      <p class="mb-1">&copy; 2024 Game City Comic Store, Design by A.R.I.</p>
-      <p class="mb-0">New to Bootstrap? <a href="/">Visit the homepage</a> or read our <a
+      <p class="mb-1">&copy; 2024 Tank Store, Design by A.R.I.</p>
+      <!-- <p class="mb-0">New to Bootstrap? <a href="/">Visit the homepage</a> or read our <a
           href="../getting-started/introduction/">getting started guide</a>.</p>
-    </div>
+    </div> -->
   </footer>
 
   <div id="image-viewer">
@@ -238,6 +241,19 @@
   var enlaceWhatsApp = "whatsapp://send?phone=5493364338670&text=" + encodeURIComponent(mensaje);
   window.location.href = enlaceWhatsApp;
 });
+  });
+</script>
+<!-- BOTON DEL HEADER PARA CONSULTAR POR WHATSAPP -->
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var whatsappButton = document.getElementById('whatsappButton');
+    if (whatsappButton) {
+      whatsappButton.addEventListener('click', function () {
+        var mensaje = "Hola! Quería consultar sobre los tanques para radiadores ";
+        var enlaceWhatsApp = "whatsapp://send?phone=5493364338670&text=" + encodeURIComponent(mensaje);
+        window.location.href = enlaceWhatsApp;
+      });
+    }
   });
 </script>
 </body>
