@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Game City Comics Store</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="css/index.css">
+  <!-- <link href="css/index.css" rel="stylesheet"> -->
+
+</head>
+
+<body class="main-content">
+  
+  <header>
+    <div class="collapse bg-dark" id="navbarHeader">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-8 col-md-7 py-4">
+            <h4 class="text-white">Acerca de:</h4>
+            <p class="text-muted">Tank Store - Tanques plasticos para radiadores - Tenemos lo que usted busca. 
+              Si se rompe el tanque de su radiador todavia puede darle una segunda vida reparandolo sin tener que cambiarlo.
+              Reemplace su tanque roto por uno nuevo, salvando su radiador por la mitad del costo de uno nuevo.</p>
+          </div>
+          <div class="col-sm-4 offset-md-1 py-4">
+            <h4 class="text-white">Contact</h4>
+            <ul class="list-unstyled">
+              <li><a href="#" class="text-white">Follow on Twitter</a></li>
+              <li><a href="#" class="text-white">Like on Facebook</a></li>
+              <li><a href="#" class="text-white">Email me</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="navbar navbar-dark bg-dark shadow-sm"> -->
+    <div class="navbar navbar-dark shadow-sm custom-header"> 
+      <div class="container d-flex justify-content-between align-items-center">
+        <div class="text-center align-middle  mb-2"> <!-- Añadida la clase align-middle -->
+          <h1 class="text-white">Tank Store - Tanques para radiadores</h1>
+        </div>
+        <div class="text-left align-middle"> <!-- Añadida la clase align-middle -->
+          <!-- <h2 class="text-white">
+            Bienvenido:
+            <% if (user) { %>
+              <span class="badge bg-dark">
+                <%= user.nombre %>
+              </span>
+              <% } %>
+          </h2> -->
+        </div>
+        
+
+        <div class="text-right">
+          <a type="button" class="px-3 btn btn-success mb-2" href="#" id="whatsappButton">
+            <img src="/img/logowhatsapp.png" alt="WhatsApp Logo" width="20" height="20">
+            Consultenos por WhatsApp
+          </a>
+          <% if (user) { %>
+              <a type="button" class="px-3 btn btn-secondary mb-2" href="/edit-profile">Editar mi perfil</a>
+              <a type="button" class="px-3 btn btn-danger mb-2" href="/logout"> 🏃‍♂️ Logout</a>
+          <% } else { %>
+              <a type="button" class="px-3 btn btn-secondary mb-2" href="/login">Login</a>
+          <% } %>
+      
+          <% if (user && user.tipo === 'admin') { %>
+            <a id="adminButton" type="button" class="px-3 btn btn-warning" href="/admin">ADMIN</a>
+          <% } %>
+      </div>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHeader"
+          aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+<!-- Banner -->    
+    <!-- <div class="images-above-header">
+      <img src="img/banner.jpg" alt="Imagen 1" class="header-image" width=100% >
+    </div> -->
+<!-- Barra de búsqueda -->
+<div class="container mt-3">
+  <form action="/buscar" method="get" class="form-inline">
+    <div class="input-group">
+      <input type="text" class="form-control" placeholder="Buscar Tanque..." name="q" />
+      <div class="input-group-append">
+        <button class="btn btn-primary" type="submit">Buscar</button>
+        <button class="btn btn-secondary ml-2" type="submit">Mostrar Todos</button>
+      </div>
+    </div>
+  </form>
+</div>
+  </header>
+
+  <main>
+    <section class="py-1 text-center container">
+      <div class="row py-lg-2">
+        <div class="col-lg-6 col-md-8 mx-auto">
+          <h1 class="fw-bold">Listado de Tanques</h1>
+        </div>
+      </div>
+    </section>
+
+    <div class="album py-1 bg-light">
+      <div class="container">
+          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
+              <!-- Modifica el bucle para iterar sobre la variable "comics" -->
+              <% comics.forEach(comic => { %>
+                <div class="col">
+                  <div class="card shadow-sm d-flex flex-column h-100">
+                      <img class="comic-cover" src="/uploads/<%= comic.portada %>" class="bd-placeholder-img card-img-top" width="100%" height="225" alt="<%= comic.nombre %>">
+                      <div class="card-body">
+                          <!-- Contenido del card-body -->
+                          <h5 class="card-title"><%= comic.nombre %></h5>
+                          <p class="card-text">
+                              <strong>Codigo:</strong> <%= comic.numero %><br>
+                              <strong>Costo:</strong>
+                              <span style="font-size: 22px; font-weight: bold; color: <%= comic.costo === 0 ? 'green' : 'red' %>;">
+                                  <%= comic.costo === 0 ? 'CONSULTAR' : ('$' + comic.costo) %>
+                              </span><br>
+                          </p>
+                          <hr>
+                          <p class="card-text">
+                              <%= comic.observaciones %>
+                          </p>
+                      </div>
+                      <div class="d-flex justify-content-start align-items-center mt-3">
+                          <div class="btn-group">
+                              <button type="button" class="btn btn-primary btn-md btn-agregar-coleccion"
+                                  data-codigo="<%= comic.numero %>"
+                                  data-descripcion="<%= comic.nombre %>">Pedir</button>
+                              <a href="javascript:void(0);" class="btn btn-secondary btn-md btn-ver" data-image-path="/uploads/<%= comic.portada %>">Ver</a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <% }); %>
+          </div>
+      </div>
+  </div>
+  </main>
+
+  <footer class="text-muted py-5">
+    <div class="container">
+      <p class="float-end mb-1">
+        <a href="#">Volver al inicio</a>
+      </p>
+      <p class="mb-1">&copy; 2024 Tank Store, Design by A.R.I.</p>
+      <!-- <p class="mb-0">New to Bootstrap? <a href="/">Visit the homepage</a> or read our <a
+          href="../getting-started/introduction/">getting started guide</a>.</p>
+    </div> -->
+  </footer>
+
+  <div id="image-viewer">
+    <img id="fullscreen-image" src="#" alt="Fullscreen Image">
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var adminButton = document.getElementById('adminButton');
+      if (adminButton) {
+        adminButton.style.display = '<%= user && user.tipo !== "admin" ? "none" : "block" %>';
+      }
+
+      var imageViewer = document.getElementById('image-viewer');
+      var fullscreenImage = document.getElementById('fullscreen-image');
+
+      function openImageViewer(imageSrc) {
+        fullscreenImage.src = imageSrc;
+        imageViewer.style.display = 'flex';
+      }
+
+      function closeImageViewer() {
+        imageViewer.style.display = 'none';
+      }
+
+      var verButtons = document.querySelectorAll('.btn-ver');
+      verButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+          var imagePath = this.getAttribute('data-image-path');
+          openImageViewer(imagePath);
+        });
+      });
+
+      imageViewer.addEventListener('click', closeImageViewer);
+    });
+  </script>
+
+  <script src="/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var adminButton = document.getElementById('adminButton');
+      if (adminButton) {
+        adminButton.style.display = '<%= user && user.tipo !== "admin" ? "none" : "block" %>';
+      }
+    });
+  </script>
+
+  <script>
+    function agregarAColeccion(comicId, coleccion) {
+      fetch('/suscribir-coleccion', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ comicId, coleccion }),
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        if (data.success) {
+          alert('Suscripción exitosa');
+        } else {
+          alert('Error al suscribirse');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('Error al suscribirse');
+      });
+    }
+  </script>
+  <!-- FUNCION PARA CONSULTAR POR WHATSAPP -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+  $(document).ready(function() {
+    $('.btn-ver').click(function() {
+      var imagePath = $(this).data('image-path');
+      openImageViewer(imagePath);
+    });
+
+    function openImageViewer(imageSrc) {
+      $('#fullscreen-image').attr('src', imageSrc);
+      $('#image-viewer').css('display', 'flex');
+    }
+
+    $('#image-viewer').click(function() {
+      $('#image-viewer').css('display', 'none');
+    });
+
+    $('.btn-agregar-coleccion').click(function() {
+  var codigo = $(this).data('codigo');
+  var descripcion = $(this).data('descripcion');
+  var mensaje = "Hola! Me gustaría consultar sobre el tanque Cod " + codigo + ", " + descripcion + "...";
+  var enlaceWhatsApp = "whatsapp://send?phone=5493364338670&text=" + encodeURIComponent(mensaje);
+  window.location.href = enlaceWhatsApp;
+});
+  });
+</script>
+<!-- BOTON DEL HEADER PARA CONSULTAR POR WHATSAPP -->
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var whatsappButton = document.getElementById('whatsappButton');
+    if (whatsappButton) {
+      whatsappButton.addEventListener('click', function () {
+        var mensaje = "Hola! Quería consultar sobre los tanques para radiadores ";
+        var enlaceWhatsApp = "whatsapp://send?phone=5493364338670&text=" + encodeURIComponent(mensaje);
+        window.location.href = enlaceWhatsApp;
+      });
+    }
+  });
+</script>
+</body>
+
+</html>

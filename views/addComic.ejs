@@ -1,0 +1,83 @@
+<!-- addComic.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar Tanque</title>
+    <link rel="stylesheet" href="/css/addComics.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
+</head>
+<body>
+
+
+<div class="container mt-1">
+
+    <!-- Menú -->
+    <nav class="navbar navbar-expand-lg bg-dark shadow-sm"> 
+        <a class="navbar-brand btn btn-outline-secondary text-white" href="/">Menú Principal</a>
+        <span class="navbar-title text-white">Cargar Tanque</span>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link btn btn-primary text-white mr-2" href="/admin-comics">🔙 Volver</a>
+            </li>
+            
+        </ul>
+    </div>
+</nav>
+
+    <!-- Formulario de agregar cómic -->
+    <form action="/add-comic" method="post" enctype="multipart/form-data">
+        <div class="form-group mt-1">
+            <label for="nombre">Descripcion:</label>
+            <input type="text" class="form-control" id="nombre" name="nombre" required>
+        </div>
+        <div class="form-group">
+            <label for="numero">Codigo:</label>
+            <input type="number" class="form-control" id="numero" name="numero" step="1" required>
+        </div>
+        <div class="form-group">
+            <label for="editorial">Marca:</label>
+            <input type="text" class="form-control" id="editorial" name="editorial" required>
+        </div>
+        <div class="form-group">
+            <label for="coleccion">Tipo:</label>
+            <input type="text" class="form-control" id="coleccion" name="coleccion" required>
+        </div>
+        <div class="form-group">
+            <label for="fecha_ingreso">Fecha de Ingreso:</label>
+            <input type="date" class="form-control" id="fecha_ingreso" name="fecha_ingreso" value="<%= new Date().toISOString().split('T')[0] %>" required>
+        </div>
+        <div class="form-group">
+            <label for="portada">Foto (Imagen):</label>
+            <input type="file" class="form-control" id="portada" name="portada" accept="image/*" required>
+        </div>
+        <div class="form-group">
+            <label for="novedad">Mostrar (si/no):</label>
+            <select class="form-control" id="novedad" name="novedad" required>
+                <option value="si">Sí</option>
+                <option value="no">No</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="costo">Costo:</label>
+            <input type="number" class="form-control" id="costo" name="costo" step="1" required>
+        </div>
+        <div class="form-group">
+            <label for="observaciones">Observaciones:</label>
+            <textarea class="form-control" id="observaciones" name="observaciones" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Agregar Tanque</button>
+            <a href="/admin-comics" type="button" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

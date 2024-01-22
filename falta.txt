@@ -1,0 +1,3 @@
+pagos en linea ?
+login , recordarme, olvide mi contraseña , confirmacion de email?
+algunos estilos de vistas

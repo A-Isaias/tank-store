@@ -1,0 +1,105 @@
+<!-- adminComic.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrar Tanques</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/adminComics.css">
+</head>
+<body>
+
+    <div class="container mt-1">
+        <!-- Menú -->
+        <nav class="navbar navbar-expand-lg bg-dark shadow-sm">
+            <a class="navbar-brand btn btn-outline-secondary text-white" href="/">Menú Principal</a>
+            <span class="navbar-title text-white">Admin Tanques</span>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-secondary text-white mr-2" href="/add-comic">Agregar Tanque</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-primary text-white" href="/admin">🔙 Volver</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+<div class="container mt-1">    
+    <div class="container mt-1">
+        <!-- Formulario de búsqueda -->
+        <form action="/admin-comics" method="post" class="row">
+            <!-- Otros campos de búsqueda -->
+            <div class="form-group col-md-3">
+                <label for="criterio"><strong>Buscar por:</strong></label>
+                <select class="form-control" id="criterio" name="criterio">
+                    <option value="nombre" selected>Descripcion</option>
+                    <option value="numero">Codigo</option>
+                    <option value="editorial">Marca</option>
+                    <option value="coleccion">Tipo</option>
+                    <option value="fecha_ingreso">Fecha de Ingreso</option>
+                    <option value="observaciones">Observaciones</option>
+                </select>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="keyword"><strong>Palabra clave:</strong></label>
+                <input type="text" class="form-control" id="keyword" name="valor" required>
+            </div>
+            <div class="form-group col-md-3 align-self-end">
+                <button type="submit" class="btn btn-primary">Buscar</button>
+                <a href="/admin-comics" class="btn btn-secondary">Mostrar Todos</a>
+            </div>
+        </form>
+    </div>
+
+    <!-- Tabla de comics -->
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Foto</th>
+                <th>Descripcion</th>
+                <th>Codigo</th>
+                <th>Marca</th>
+                <th>Tipo</th>
+                <th>Fecha Ingreso</th>
+                <th>Mostrar</th>
+                <th>Costo</th>
+                <th>Observaciones</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% comics.forEach(comic => { %>
+                <tr>
+                    <td><%= comic.id %></td>
+                    <td><img src="/uploads/<%= comic.portada %>" alt="Portada del Cómic" style="max-width: 100px;"></td>
+                    <td><%= comic.nombre %></td>
+                    <td><%= comic.numero %></td>
+                    <td><%= comic.editorial %></td>
+                    <td><%= comic.coleccion %></td>
+                    <td><%= comic.fecha_ingreso %></td>
+                    <td><%= comic.novedad %></td>
+                    <td><%= comic.costo %></td>
+                    <td><%= comic.observaciones %></td>
+                    <td>
+                        <a href="/edit-comic/<%= comic.id %>" class="btn btn-warning">Editar</a>
+                        <form action="/delete-comic/<%= comic.id %>" method="post" onsubmit="return confirm('¿Estás seguro de que quieres eliminar este cómic?');">
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                        </form>
+                        
+                    </td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
