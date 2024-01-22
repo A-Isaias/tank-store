@@ -20,7 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `tank-store`
 --
-
+-- NOTA FALTA EL SCRIPT PARA CREAR LA BASE DE DATOS tank-store CREARLA MANUALMENTE
+-- Y LUEGO IMPORTAR EL SCRIPT DESDE PHPMYADMIN
 -- --------------------------------------------------------
 
 --
