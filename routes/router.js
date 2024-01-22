@@ -41,18 +41,22 @@ router.get('/buscar', indexController.searchIndexComics);
 
 // Ruta para la vista de administrador
 router.get('/admin', authController.isAuthenticated, async (req, res) => {
-    try {
+  try {
+      // Verificar si el usuario tiene el tipo de "admin"
+      if (req.user.tipo !== 'admin') {
+          return res.status(403).send('Acceso denegado'); // O puedes redirigir a otra página
+      }
+
       // Obtener la información para las estadísticas
-      const adminInfo = await adminController.getAdminInfo(req, res); // Agrega req, res
-  
+      const adminInfo = await adminController.getAdminInfo(req, res);
+
       // Renderizar la vista con la información obtenida
       res.render('admin', adminInfo);
-    } catch (error) {
+  } catch (error) {
       console.error(error);
       res.status(500).send('Error interno del servidor');
-    }
-  });
-  
+  }
+});
 //EDITAR PERFIL DE USUARIO
 // Ruta para la vista de edición del perfil (debe estar autenticado)
 router.get('/edit-profile', isAuthenticated, editUserController.editProfileView);

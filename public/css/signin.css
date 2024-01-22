@@ -1,15 +1,12 @@
-html,
-body {
+html, body {
   height: 100%;
 }
 
 body {
-  /* display: flex; */
-  display: inherit;
+  display: flex;
   align-items: center;
-  padding-top: 40px;
-  padding-bottom: 40px;
   background-color: #f5f5f5;
+  margin: 0; /* Elimina el margen predeterminado del cuerpo */
 }
 
 .form-signin {
@@ -40,19 +37,24 @@ body {
 }
 
 .novedades-message {
-    font-size: 18px;
-    margin-top: 10px;
-    /* Puedes cambiar el color según tus preferencias */
-    color: #333;
-  }
+  font-size: 18px;
+  margin-top: 10px;
+  color: #333;
+}
 
-  /* Cambia el siguiente estilo según la fuente que quieras probar */
-  .custom-font {
-    /* font-family: Arial, sans-serif;  */
-    /* font-family: Calibri, sans-serif; */
-     font-family: Verdana, sans-serif; 
-    /*font-family: Tahoma, sans-serif; */
-  }
-  .img-thumbnail {
-    max-width: 150px;
-  }
+.custom-font {
+  font-family: Verdana, sans-serif;
+}
+
+.img-thumbnail {
+  max-width: 150px;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  background-color: #f8f9fa;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}

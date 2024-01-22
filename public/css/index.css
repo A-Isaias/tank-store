@@ -1,3 +1,4 @@
+
 /* Estilos generales para el título */
 header h1 {
     font-size: 2em; /* Tamaño de fuente normal */
@@ -8,6 +9,20 @@ header h1 {
 header h2 {
     font-size: 1.2em; /* Tamaño de fuente normal */
 }
+
+/* Color del header */
+.custom-header {
+  background-color: black; /* Reemplaza #ff0000 con el color que desees */
+  max-width: 100%; /* Ancho máximo del header */
+  margin: 0 auto; /* Centrar el header */
+}
+
+.header-image {
+  display: inline-block;
+  margin-right: 10px;
+  vertical-align: middle; /* Añade esta línea para alinear verticalmente las imágenes */
+}
+
 
 .comic-cover {
   max-width: 100%; /* Esto hará que las imágenes sean responsivas y se ajusten al contenedor */

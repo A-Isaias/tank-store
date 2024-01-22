@@ -52,7 +52,7 @@ exports.login = async (req, res) => {
         const email = req.body.email;
         const pass = req.body.pass;
 
-        console.log(email, pass);
+        // console.log(email, pass);
 
         if (!email || !pass) {
             return res.render('login', {
@@ -87,17 +87,19 @@ exports.login = async (req, res) => {
             expiresIn: process.env.JWT_TIEMPO_EXPIRA
         });
 
-        console.log("TOKEN: " + token + " para el usuario: " + email);
+        // console.log("TOKEN: " + token + " para el usuario: " + email);
 
         const cookiesOptions = {
             expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000),
             httpOnly: true
         };
+        // Obtener la URL de redirección o usar '/' por defecto
+        const redirectUrl = req.query.redirect || '/';
 
         res.cookie('jwt', token, cookiesOptions);
 
         // Redirigir después de establecer la cookie
-        res.redirect('/');
+        res.redirect(redirectUrl);
     } catch (error) {
         console.log(error);
         res.render('login', {

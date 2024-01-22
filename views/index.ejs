@@ -13,7 +13,8 @@
 
 </head>
 
-<body>
+<body class="main-content">
+  
   <header>
     <div class="collapse bg-dark" id="navbarHeader">
       <div class="container">
@@ -35,7 +36,8 @@
         </div>
       </div>
     </div>
-    <div class="navbar navbar-dark bg-dark shadow-sm">
+    <!-- <div class="navbar navbar-dark bg-dark shadow-sm"> -->
+    <div class="navbar navbar-dark shadow-sm custom-header"> 
       <div class="container d-flex justify-content-between align-items-center">
         <div class="text-center align-middle  mb-2"> <!-- Añadida la clase align-middle -->
           <h1 class="text-white">Tank Store - Tanques para radiadores</h1>
@@ -50,7 +52,8 @@
               <% } %>
           </h2> -->
         </div>
-        <% console.log('Tipo de Usuario:', user ? user.tipo : 'No autenticado'); %>
+        
+
         <div class="text-right">
           <a type="button" class="px-3 btn btn-success mb-2" href="#" id="whatsappButton">
             <img src="/img/logowhatsapp.png" alt="WhatsApp Logo" width="20" height="20">
@@ -73,7 +76,10 @@
         </button>
       </div>
     </div>
-
+<!-- Banner -->    
+    <!-- <div class="images-above-header">
+      <img src="img/banner.jpg" alt="Imagen 1" class="header-image" width=100% >
+    </div> -->
 <!-- Barra de búsqueda -->
 <div class="container mt-3">
   <form action="/buscar" method="get" class="form-inline">
