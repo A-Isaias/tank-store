@@ -1,11 +1,15 @@
 // indexController.js
 
 const connection = require('../database/db');
+const { createConnection } = require('../database/db');
 
 // Función para obtener cómics de novedad
 exports.getFeaturedComics = () => {
     return new Promise((resolve, reject) => {
+        const connection = createConnection();
+
         connection.query('SELECT * FROM comics WHERE novedad = ?', ['si'], (error, results) => {
+            connection.end(); // Cierra la conexión después de la consulta
             if (error) {
                 reject(error);
             } else {
@@ -22,9 +26,13 @@ exports.getFeaturedComics = () => {
 // Función para buscar cómics
 exports.searchComics = (query) => {
     return new Promise((resolve, reject) => {
+        const connection = createConnection();
+
         const searchQuery = `%${query}%`;
         const sql = 'SELECT * FROM comics WHERE nombre LIKE ? OR coleccion LIKE ?';
+        
         connection.query(sql, [searchQuery, searchQuery], (error, results) => {
+            connection.end(); // Cierra la conexión después de la consulta
             if (error) {
                 reject(error);
             } else {
