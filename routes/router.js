@@ -5,7 +5,7 @@ const isAuthenticated = require('../controllers/authController').isAuthenticated
 const editUserController = require('../controllers/editUserController');
 const adminComicsController = require('../controllers/adminComicsController');
 const authController = require('../controllers/authController')
-const indexController = require('../controllers/indexController'); 
+// const indexController = require('../controllers/indexController'); 
 const adminUsersController = require('../controllers/adminUsersController');
 const adminController = require('../controllers/adminController');
 const suscriptionController = require('../controllers/suscriptionController');
@@ -22,8 +22,9 @@ router.use(methodOverride('_method'));
 // Ruta para la página principal
 router.get('/', async (req, res) => {
   try {
-      const comics = await indexController.getFeaturedComics();
-      res.render('index', { user: req.user, comics }); // Cambiado de 'featuredComics' a 'comics'
+    //   const comics = await indexController.getFeaturedComics();
+    //   res.render('index', { user: req.user, comics }); 
+        res.render('index')
   } catch (error) {
       console.error(error);
       res.status(500).send('Error interno del servidor');
@@ -37,7 +38,7 @@ router.get ('/register', (req, res)=>{
     res.render('register')
 })
 // Ruta para buscar en la página de inicio
-router.get('/buscar', indexController.searchIndexComics);
+// router.get('/buscar', indexController.searchIndexComics);
 
 // Ruta para la vista de administrador
 router.get('/admin', authController.isAuthenticated, async (req, res) => {
