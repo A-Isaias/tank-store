@@ -20,7 +20,7 @@ function connect() {
         if (error) {
             console.error('Error de conexión:', error.message);
             // Intentar reconexión en caso de error de conexión
-            handleDisconnect(connection);
+            handleDisconnect();
         } else {
             console.log('Conexión a la base de datos exitosa!');
         }
@@ -30,7 +30,7 @@ function connect() {
     connection.on('error', (err) => {
         if (err.code === 'PROTOCOL_CONNECTION_LOST' || err.code === 'ECONNRESET') {
             console.error('Se perdió la conexión con la base de datos. Intentando reconectar...');
-            handleDisconnect(connection);
+            handleDisconnect();
         } else {
             throw err;
         }
@@ -40,7 +40,7 @@ function connect() {
 }
 
 // Función para manejar la reconexión
-function handleDisconnect(connection) {
+function handleDisconnect() {
     connection.destroy();
     connect();
 }
