@@ -1,10 +1,9 @@
-//Variables de entorno Servidor Mike
+//Variables de entorno Locales
 
-DB_HOST=srv804.hstgr.io
-DB_USER=u858210262_ariel_en_moto 
-DB_PASSWORD=aW]F;E&?7W?
-DB_DATABASE=u858210262_ariel_en_moto
-
+DB_HOST=localhost
+DB_USER=root 
+DB_PASSWORD=123456789
+DB_DATABASE=tank-store
 
 //Definimos los datos par JWT
 JWT_SECRETO  = YoSoyUnSecret0
